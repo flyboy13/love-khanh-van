@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>💖</text></svg>">
+    <title>Do You Love Me? - Love Games</title>
+    <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Montserrat:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/tsparticles@2.12.0/tsparticles.bundle.min.js"></script>
+    <style>
+        :root { --pink: #ff69b4; --hot-pink: #ff1493; --light-pink: #ffd1dc; --dark: #0a0a0a; }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background: linear-gradient(135deg, #0a0a0a 0%, #1a0011 50%, #0a0a0a 100%);
+            color: #fff;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        #tsparticles { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 0; }
+
+        .back-btn {
+            position: fixed; top: 25px; left: 25px; z-index: 100;
+            color: var(--light-pink); text-decoration: none; font-size: 0.9rem;
+            padding: 10px 25px; border: 1px solid rgba(255,105,180,0.2);
+            border-radius: 30px; backdrop-filter: blur(10px);
+            background: rgba(10,10,10,0.8); transition: all 0.3s; letter-spacing: 1px;
+        }
+        .back-btn:hover { background: var(--pink); color: #fff; border-color: transparent; }
+
+        .game-page {
+            min-height: 100vh; display: flex; flex-direction: column;
+            align-items: center; justify-content: center;
+            position: relative; z-index: 5; padding: 40px 20px;
+        }
+
+        .game-title { text-align: center; margin-bottom: 60px; }
+        .game-title h1 {
+            font-family: 'Great Vibes', cursive;
+            font-size: clamp(3rem, 7vw, 5rem);
+            color: var(--pink);
+            filter: drop-shadow(0 0 25px rgba(255,105,180,0.3));
+        }
+        .game-title p { color: rgba(255,255,255,0.5); font-size: 1.1rem; letter-spacing: 3px; margin-top: 10px; }
+
+        /* DO YOU LOVE ME */
+        .love-me-game { text-align: center; width: 100%; max-width: 800px; }
+        .love-me-question {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(2.2rem, 5vw, 3.5rem);
+            margin-bottom: 60px;
+        }
+        .love-me-question .emoji {
+            font-size: 6rem; display: block; margin-bottom: 30px;
+            animation: bounce 1.5s ease-in-out infinite;
+        }
+        @keyframes bounce { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-20px)} }
+
+        .btn-container {
+            display: flex; gap: 40px; justify-content: center; align-items: center;
+            flex-wrap: wrap; position: relative; min-height: 300px; width: 100%;
+        }
+        .btn-yes {
+            padding: 28px 90px; font-size: 1.8rem; font-family: 'Montserrat', sans-serif;
+            font-weight: 700; border: none; border-radius: 60px;
+            background: linear-gradient(135deg, #ff69b4, #ff1493); color: #fff;
+            cursor: pointer; transition: all 0.3s ease;
+            box-shadow: 0 15px 45px rgba(255,20,147,0.35); z-index: 10;
+        }
+        .btn-yes:hover { transform: scale(1.15); box-shadow: 0 20px 60px rgba(255,20,147,0.5); }
+
+        .btn-no {
+            padding: 28px 90px; font-size: 1.8rem; font-family: 'Montserrat', sans-serif;
+            font-weight: 700; border: 2px solid rgba(255,105,180,0.3); border-radius: 60px;
+            background: rgba(255,105,180,0.05); color: rgba(255,182,193,0.7);
+            cursor: pointer; transition: left 0.2s, top 0.2s; z-index: 10;
+        }
+
+        .success { display: none; text-align: center; animation: fadeInScale 0.8s ease forwards; }
+        .success .big-heart { font-size: 12rem; animation: heartPump 0.8s ease-in-out infinite; }
+        .success h2 {
+            font-family: 'Great Vibes', cursive; font-size: 4.5rem;
+            color: var(--pink); margin: 30px 0 20px;
+        }
+        .success p {
+            font-family: 'Playfair Display', serif; font-size: 1.5rem;
+            color: rgba(255,255,255,0.8); max-width: 600px; margin: 0 auto; line-height: 1.8;
+        }
+
+        @keyframes heartPump { 0%,100%{transform:scale(1)} 25%{transform:scale(1.2)} 40%{transform:scale(1)} 60%{transform:scale(1.15)} }
+        @keyframes fadeInScale { 0%{opacity:0;transform:scale(0.5)} 100%{opacity:1;transform:scale(1)} }
+
+        .confetti-container { position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:9999;overflow:hidden; }
+        .confetti { position:absolute; animation: confettiFall linear forwards; }
+        @keyframes confettiFall { 0%{opacity:1;transform:translateY(-10vh) rotate(0) scale(1)} 100%{opacity:0;transform:translateY(110vh) rotate(720deg) scale(0.3)} }
+
+        @media (max-width:600px) {
+            .btn-yes, .btn-no { padding: 20px 55px; font-size: 1.3rem; }
+            .love-me-question .emoji { font-size: 4rem; }
+        }
+    </style>
+</head>
+<body>
+    <div id="tsparticles"></div>
+    <div class="confetti-container" id="confetti"></div>
+    <a href="games.html" class="back-btn">Back to Games</a>
+
+    <div class="game-page">
+        <div class="game-title">
+            <h1>Do You Love Me?</h1>
+            <p>Try to say no... if you can</p>
+        </div>
+
+        <div class="love-me-game" id="game">
+            <div class="love-me-question">
+                <span class="emoji">🥺👉👈</span>
+                Do you love me?
+            </div>
+            <div class="btn-container" id="btnContainer">
+                <button class="btn-yes" id="btnYes">Yes! 💖</button>
+                <button class="btn-no" id="btnNo">No 💔</button>
+            </div>
+        </div>
+
+        <div class="success" id="success">
+            <div class="big-heart">💖</div>
+            <h2>I knew it!</h2>
+            <p>I love you too, more than words can ever say! You make my heart beat faster every single day. 💕✨🌹</p>
+        </div>
+    </div>
+
+    <script>
+    tsParticles.load("tsparticles", {
+        particles: {
+            number: { value: 35 }, color: { value: ["#ff69b4","#ff1493","#ffb6c1","#ffd1dc"] },
+            shape: { type: ["circle","star"] },
+            opacity: { value: {min:0.1,max:0.35}, animation:{enable:true,speed:0.4} },
+            size: { value: {min:2,max:7}, animation:{enable:true,speed:1.5} },
+            move: { enable: true, speed: 0.6, outModes:{default:"out"} },
+            twinkle: { particles:{enable:true,frequency:0.03,color:"#ff69b4"} }
+        }
+    });
+
+    function launchConfetti(n) {
+        var c = document.getElementById('confetti');
+        var em = ['💖','💗','💕','✨','🌸','💝','🎉','💘','🌹'];
+        for (var i = 0; i < n; i++) {
+            (function(i){
+                setTimeout(function(){
+                    var d = document.createElement('div');
+                    d.className = 'confetti';
+                    d.textContent = em[Math.floor(Math.random()*em.length)];
+                    d.style.left = Math.random()*100+'%';
+                    d.style.fontSize = (18+Math.random()*28)+'px';
+                    d.style.animationDuration = (2+Math.random()*3)+'s';
+                    c.appendChild(d);
+                    setTimeout(function(){ d.remove(); }, 5000);
+                }, i * 30);
+            })(i);
+        }
+    }
+
+    var btnNo = document.getElementById('btnNo');
+    var btnYes = document.getElementById('btnYes');
+    var container = document.getElementById('btnContainer');
+    var noTexts = ["No 💔","Are you sure? 🥺","Really sure? 😢","Think again! 😭","Please? 🙏","Pretty please? 🥹","Don't break my heart 💔","I'll cry... 😿","You're making me sad 😞","Last chance! 🫣"];
+    var noCount = 0, yesScale = 1;
+
+    function moveNo() {
+        var rect = container.getBoundingClientRect();
+        var x = Math.max(0, Math.random() * (rect.width - btnNo.offsetWidth));
+        var y = Math.max(0, Math.random() * (rect.height - btnNo.offsetHeight));
+        btnNo.style.position = 'absolute';
+        btnNo.style.left = x + 'px';
+        btnNo.style.top = y + 'px';
+        noCount = Math.min(noCount + 1, noTexts.length - 1);
+        btnNo.textContent = noTexts[noCount];
+        yesScale += 0.12;
+        btnYes.style.transform = 'scale('+yesScale+')';
+    }
+
+    btnNo.addEventListener('mouseover', moveNo);
+    btnNo.addEventListener('click', moveNo);
+    btnNo.addEventListener('touchstart', function(e) { e.preventDefault(); moveNo(); });
+
+    btnYes.addEventListener('click', function() {
+        document.getElementById('game').style.display = 'none';
+        document.getElementById('success').style.display = 'block';
+        launchConfetti(120);
+    });
+    </script>
+</body>
+</html>

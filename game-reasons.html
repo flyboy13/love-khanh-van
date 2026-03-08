@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>💖</text></svg>">
+    <title>Reasons I Love You - Love Games</title>
+    <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Montserrat:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/tsparticles@2.12.0/tsparticles.bundle.min.js"></script>
+    <style>
+        :root { --pink: #ff69b4; --hot-pink: #ff1493; --light-pink: #ffd1dc; --dark: #0a0a0a; }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background: linear-gradient(135deg, #0a0a0a 0%, #1a0011 50%, #0a0a0a 100%);
+            color: #fff; min-height: 100vh; overflow-x: hidden;
+        }
+        #tsparticles { position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:0; }
+
+        .back-btn {
+            position:fixed;top:25px;left:25px;z-index:100;
+            color:var(--light-pink);text-decoration:none;font-size:0.9rem;
+            padding:10px 25px;border:1px solid rgba(255,105,180,0.2);
+            border-radius:30px;backdrop-filter:blur(10px);
+            background:rgba(10,10,10,0.8);transition:all 0.3s;letter-spacing:1px;
+        }
+        .back-btn:hover { background:var(--pink);color:#fff;border-color:transparent; }
+
+        .game-page {
+            display: flex; flex-direction: column;
+            align-items: center; justify-content: center;
+            position: relative; z-index: 5; padding: 100px 20px 60px;
+            min-height: 100vh;
+        }
+
+        .game-title { text-align: center; margin-bottom: 40px; }
+        .game-title h1 {
+            font-family: 'Great Vibes', cursive;
+            font-size: clamp(2.5rem, 6vw, 4.5rem);
+            color: var(--pink);
+            filter: drop-shadow(0 0 25px rgba(255,105,180,0.3));
+        }
+        .game-title p { color: rgba(255,255,255,0.5); font-size: 1rem; letter-spacing: 3px; margin-top: 10px; }
+
+        .jar { text-align: center; margin-bottom: 45px; }
+        .jar-emoji { font-size: 7rem; animation: wobble 3s ease-in-out infinite; }
+        @keyframes wobble { 0%,100%{transform:rotate(-3deg)} 50%{transform:rotate(3deg)} }
+        .jar-sub {
+            color: rgba(255,182,193,0.5); font-size: 1rem;
+            margin-top: 12px; letter-spacing: 2px;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 25px; max-width: 950px; width: 100%;
+        }
+
+        .flip-card { aspect-ratio: 1; perspective: 800px; cursor: pointer; }
+        .flip-inner {
+            width: 100%; height: 100%; position: relative;
+            transform-style: preserve-3d;
+            transition: transform 0.7s cubic-bezier(0.23,1,0.32,1);
+            border-radius: 24px;
+        }
+        .flip-card.flipped .flip-inner { transform: rotateY(180deg); }
+
+        .flip-face {
+            position: absolute; width: 100%; height: 100%;
+            backface-visibility: hidden; border-radius: 24px;
+            display: flex; flex-direction: column;
+            align-items: center; justify-content: center; padding: 20px;
+        }
+        .flip-front {
+            background: linear-gradient(145deg, rgba(255,105,180,0.12), rgba(255,20,147,0.06));
+            border: 2px solid rgba(255,105,180,0.15);
+            transition: border-color 0.3s, box-shadow 0.3s;
+        }
+        .flip-card:hover .flip-front {
+            border-color: rgba(255,105,180,0.4);
+            box-shadow: 0 0 30px rgba(255,105,180,0.15);
+        }
+        .flip-front .heart { font-size: 4.5rem; transition: transform 0.3s; }
+        .flip-card:hover .heart { transform: scale(1.25) rotate(10deg); }
+        .flip-front .num {
+            font-family: 'Great Vibes', cursive; font-size: 1.6rem;
+            color: rgba(255,182,193,0.5); margin-top: 10px;
+        }
+
+        .flip-back {
+            background: linear-gradient(145deg, rgba(255,105,180,0.2), rgba(255,20,147,0.1));
+            border: 2px solid rgba(255,105,180,0.35);
+            transform: rotateY(180deg); text-align: center;
+            box-shadow: 0 0 35px rgba(255,105,180,0.15);
+        }
+        .flip-back p {
+            font-family: 'Playfair Display', serif; font-size: 1.05rem;
+            color: var(--light-pink); line-height: 1.6; font-style: italic;
+        }
+
+        .counter {
+            text-align: center; margin-top: 40px;
+            color: rgba(255,182,193,0.5); font-size: 1.1rem;
+        }
+        .counter span { color: var(--pink); font-weight: 700; font-size: 1.3rem; }
+
+        /* All discovered message */
+        .all-done {
+            display: none; text-align: center; margin-top: 40px;
+            animation: fadeIn 1s ease;
+        }
+        .all-done h2 {
+            font-family: 'Great Vibes', cursive; font-size: 3rem;
+            color: var(--pink); margin-bottom: 10px;
+        }
+        .all-done p {
+            font-family: 'Playfair Display', serif;
+            color: rgba(255,255,255,0.7); font-size: 1.2rem;
+        }
+        @keyframes fadeIn { 0%{opacity:0;transform:translateY(20px)} 100%{opacity:1;transform:translateY(0)} }
+
+        .confetti-container { position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:9999;overflow:hidden; }
+        .confetti { position:absolute; animation: fall linear forwards; }
+        @keyframes fall { 0%{opacity:1;transform:translateY(-10vh) rotate(0) scale(1)} 100%{opacity:0;transform:translateY(110vh) rotate(720deg) scale(0.3)} }
+
+        @media (max-width:700px) { .grid { grid-template-columns: repeat(3,1fr); gap: 15px; } }
+        @media (max-width:450px) { .grid { grid-template-columns: repeat(2,1fr); gap: 12px; } .flip-back p { font-size: 0.85rem; } }
+    </style>
+</head>
+<body>
+    <div id="tsparticles"></div>
+    <div class="confetti-container" id="confetti"></div>
+    <a href="games.html" class="back-btn">Back to Games</a>
+
+    <div class="game-page">
+        <div class="game-title">
+            <h1>Reasons I Love You</h1>
+            <p>Tap each heart to discover a reason</p>
+        </div>
+
+        <div class="jar">
+            <div class="jar-emoji">🏺💕</div>
+            <p class="jar-sub">My jar full of love for you</p>
+        </div>
+
+        <div class="grid" id="grid"></div>
+
+        <div class="counter">
+            <span id="count">0</span> / <span id="total">0</span> reasons discovered
+        </div>
+
+        <div class="all-done" id="allDone">
+            <h2>You've discovered all my reasons!</h2>
+            <p>But truthfully, there are infinite more. I love you endlessly. 💕</p>
+        </div>
+    </div>
+
+    <script>
+    tsParticles.load("tsparticles", {
+        particles: {
+            number:{value:30},color:{value:["#ff69b4","#ff1493","#ffb6c1"]},
+            shape:{type:["circle","star"]},
+            opacity:{value:{min:0.1,max:0.3}},
+            size:{value:{min:2,max:6}},
+            move:{enable:true,speed:0.5,outModes:{default:"out"}},
+            twinkle:{particles:{enable:true,frequency:0.03,color:"#ff69b4"}}
+        }
+    });
+
+    function launchConfetti(n){var c=document.getElementById('confetti');var em=['💖','💗','💕','✨','🌸','💝','🎉','💘'];for(var i=0;i<n;i++){(function(i){setTimeout(function(){var d=document.createElement('div');d.className='confetti';d.textContent=em[Math.floor(Math.random()*em.length)];d.style.left=Math.random()*100+'%';d.style.fontSize=(16+Math.random()*26)+'px';d.style.animationDuration=(2+Math.random()*3)+'s';c.appendChild(d);setTimeout(function(){d.remove();},5000);},i*30);})(i);}}
+
+    var REASONS = [
+        "I love the way your eyes light up when you smile",
+        "I love how you always know the right thing to say",
+        "I love your beautiful laugh that brightens my day",
+        "I love how strong and brave you are",
+        "I love the way you care about everyone around you",
+        "I love falling asleep knowing you're mine",
+        "I love every little thing about you",
+        "I love how you make ordinary moments extraordinary",
+        "I love the way you hold my hand",
+        "I love how you make me want to be a better person",
+        "I love your beautiful heart and kind soul",
+        "I love that you chose me to share your life with"
+    ];
+
+    var flipped = 0;
+    var grid = document.getElementById('grid');
+    document.getElementById('total').textContent = REASONS.length;
+
+    REASONS.forEach(function(reason, i) {
+        var card = document.createElement('div');
+        card.className = 'flip-card';
+        card.innerHTML = '<div class="flip-inner"><div class="flip-face flip-front"><div class="heart">💗</div><div class="num">#'+(i+1)+'</div></div><div class="flip-face flip-back"><p>'+reason+'</p></div></div>';
+        card.addEventListener('click', function() {
+            if (!card.classList.contains('flipped')) {
+                card.classList.add('flipped');
+                flipped++;
+                document.getElementById('count').textContent = flipped;
+                launchConfetti(6);
+                if (flipped === REASONS.length) {
+                    setTimeout(function() {
+                        document.getElementById('allDone').style.display = 'block';
+                        launchConfetti(100);
+                    }, 600);
+                }
+            }
+        });
+        grid.appendChild(card);
+    });
+    </script>
+</body>
+</html>

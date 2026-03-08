@@ -1,0 +1,444 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>💖</text></svg>">
+    <title>Love Games - Happy Women's Day</title>
+    <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Montserrat:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/tsparticles@2.12.0/tsparticles.bundle.min.js"></script>
+    <style>
+        :root {
+            --pink: #ff69b4;
+            --hot-pink: #ff1493;
+            --light-pink: #ffd1dc;
+            --dark: #0a0a0a;
+            --dark-purple: #1a0011;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background: var(--dark);
+            color: #fff;
+            overflow-x: hidden;
+            min-height: 100vh;
+        }
+
+        #tsparticles {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .petal {
+            position: fixed;
+            pointer-events: none;
+            z-index: 1;
+            opacity: 0;
+        }
+
+        .sparkle {
+            position: fixed;
+            pointer-events: none;
+            z-index: 9998;
+            animation: sparkleAnim 1s ease forwards;
+        }
+
+        @keyframes sparkleAnim {
+            0% { opacity: 1; transform: scale(1) translateY(0); }
+            100% { opacity: 0; transform: scale(0) translateY(-60px) rotate(180deg); }
+        }
+
+        /* NAV */
+        .top-nav {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%;
+            padding: 18px 40px;
+            background: rgba(10, 10, 10, 0.92);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(255,105,180,0.15);
+            z-index: 1000;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .nav-title {
+            font-family: 'Great Vibes', cursive;
+            font-size: 1.8rem;
+            color: var(--pink);
+        }
+
+        .nav-back {
+            color: var(--light-pink);
+            text-decoration: none;
+            font-size: 0.9rem;
+            letter-spacing: 2px;
+            padding: 8px 22px;
+            border: 1px solid rgba(255,105,180,0.2);
+            border-radius: 30px;
+            transition: all 0.3s;
+        }
+
+        .nav-back:hover {
+            background: linear-gradient(135deg, var(--pink), var(--hot-pink));
+            color: #fff;
+            border-color: transparent;
+        }
+
+        /* HERO */
+        .hero {
+            height: 50vh;
+            min-height: 350px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            position: relative;
+            z-index: 5;
+            background: linear-gradient(180deg, var(--dark-purple) 0%, #120015 50%, var(--dark) 100%);
+            padding-top: 60px;
+        }
+
+        .hero::after {
+            content: '';
+            position: absolute;
+            top: 50%; left: 50%;
+            width: 700px; height: 700px;
+            background: radial-gradient(circle, rgba(255,105,180,0.1) 0%, transparent 60%);
+            transform: translate(-50%, -50%);
+            animation: pulse 5s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: translate(-50%,-50%) scale(1); opacity: 0.6; }
+            50% { transform: translate(-50%,-50%) scale(1.3); opacity: 1; }
+        }
+
+        .hero h1 {
+            font-family: 'Great Vibes', cursive;
+            font-size: clamp(3.5rem, 9vw, 7rem);
+            background: linear-gradient(135deg, var(--pink), var(--light-pink), var(--hot-pink));
+            background-size: 300% 300%;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: grad 4s ease infinite;
+            position: relative;
+            z-index: 2;
+            filter: drop-shadow(0 0 40px rgba(255,105,180,0.3));
+        }
+
+        .hero p {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.2rem;
+            color: rgba(255,255,255,0.6);
+            margin-top: 15px;
+            letter-spacing: 4px;
+            position: relative;
+            z-index: 2;
+        }
+
+        @keyframes grad {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        /* GAME CARDS GRID */
+        .games-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 35px;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 80px 40px 120px;
+            position: relative;
+            z-index: 5;
+        }
+
+        .game-card {
+            position: relative;
+            border-radius: 28px;
+            overflow: hidden;
+            min-height: 380px;
+            background: linear-gradient(145deg, rgba(255,105,180,0.08), rgba(255,20,147,0.03));
+            border: 1.5px solid rgba(255,105,180,0.12);
+            cursor: pointer;
+            transform-style: preserve-3d;
+            perspective: 1000px;
+            transition: all 0.5s cubic-bezier(0.23,1,0.32,1);
+            text-decoration: none;
+            color: #fff;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 50px 35px;
+            backdrop-filter: blur(10px);
+        }
+
+        .game-card::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background: linear-gradient(180deg, transparent 50%, rgba(255,105,180,0.06) 100%);
+            opacity: 0;
+            transition: opacity 0.5s;
+        }
+
+        .game-card:hover::before { opacity: 1; }
+
+        .game-card:hover {
+            transform: translateY(-12px) scale(1.02);
+            border-color: rgba(255,105,180,0.35);
+            box-shadow:
+                0 30px 60px rgba(255,105,180,0.15),
+                0 0 80px rgba(255,105,180,0.08);
+        }
+
+        .game-card .card-emoji {
+            font-size: 5rem;
+            margin-bottom: 25px;
+            transition: transform 0.5s cubic-bezier(0.23,1,0.32,1);
+            filter: drop-shadow(0 5px 15px rgba(0,0,0,0.3));
+        }
+
+        .game-card:hover .card-emoji {
+            transform: scale(1.2) rotate(5deg);
+        }
+
+        .game-card h3 {
+            font-family: 'Great Vibes', cursive;
+            font-size: 2.2rem;
+            color: var(--pink);
+            margin-bottom: 12px;
+            transition: color 0.3s;
+        }
+
+        .game-card:hover h3 { color: var(--light-pink); }
+
+        .game-card p {
+            font-family: 'Playfair Display', serif;
+            font-size: 1rem;
+            color: rgba(255,255,255,0.55);
+            line-height: 1.6;
+            margin-bottom: 25px;
+        }
+
+        .play-btn {
+            padding: 12px 40px;
+            border: 1.5px solid rgba(255,105,180,0.3);
+            border-radius: 50px;
+            background: transparent;
+            color: var(--pink);
+            font-family: 'Montserrat', sans-serif;
+            font-size: 0.9rem;
+            font-weight: 600;
+            letter-spacing: 2px;
+            transition: all 0.3s;
+            pointer-events: none;
+        }
+
+        .game-card:hover .play-btn {
+            background: linear-gradient(135deg, var(--pink), var(--hot-pink));
+            color: #fff;
+            border-color: transparent;
+            box-shadow: 0 8px 25px rgba(255,20,147,0.3);
+        }
+
+        /* 3D tilt on hover */
+        .game-card.tilt {
+            transition: transform 0.15s ease;
+        }
+
+        /* CARD NUMBERING */
+        .card-number {
+            position: absolute;
+            top: 20px;
+            right: 25px;
+            font-family: 'Great Vibes', cursive;
+            font-size: 1.5rem;
+            color: rgba(255,105,180,0.2);
+        }
+
+        /* FOOTER */
+        footer {
+            text-align: center;
+            padding: 40px 20px;
+            position: relative;
+            z-index: 5;
+            border-top: 1px solid rgba(255,105,180,0.1);
+        }
+
+        footer p {
+            color: rgba(255,182,193,0.4);
+            font-size: 0.85rem;
+        }
+
+        /* CARD ENTRANCE ANIMATION */
+        .game-card {
+            opacity: 0;
+            transform: translateY(60px);
+            animation: cardIn 0.7s ease forwards;
+        }
+        .game-card:nth-child(1) { animation-delay: 0.1s; }
+        .game-card:nth-child(2) { animation-delay: 0.25s; }
+        .game-card:nth-child(3) { animation-delay: 0.4s; }
+        .game-card:nth-child(4) { animation-delay: 0.55s; }
+        .game-card:nth-child(5) { animation-delay: 0.7s; }
+
+        @keyframes cardIn {
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* RESPONSIVE */
+        @media (max-width: 700px) {
+            .games-grid {
+                grid-template-columns: 1fr;
+                padding: 50px 20px 80px;
+                gap: 25px;
+            }
+            .game-card { min-height: 300px; padding: 40px 25px; }
+            .game-card .card-emoji { font-size: 4rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <div id="tsparticles"></div>
+
+    <nav class="top-nav">
+        <span class="nav-title">Love Games</span>
+        <a href="index.html" class="nav-back">Back to Women's Day</a>
+    </nav>
+
+    <section class="hero">
+        <h1>Choose a Game</h1>
+        <p>Pick one and let's play together</p>
+    </section>
+
+    <div class="games-grid">
+        <a href="game-loveme.html" class="game-card" data-tilt>
+            <span class="card-number">#1</span>
+            <div class="card-emoji">🥺💘</div>
+            <h3>Do You Love Me?</h3>
+            <p>Try to say no... if you can. The No button has a mind of its own!</p>
+            <span class="play-btn">PLAY</span>
+        </a>
+
+        <a href="game-memory.html" class="game-card" data-tilt>
+            <span class="card-number">#2</span>
+            <div class="card-emoji">🃏💖</div>
+            <h3>Memory Match</h3>
+            <p>Find all the matching love pairs to unlock a sweet surprise message.</p>
+            <span class="play-btn">PLAY</span>
+        </a>
+
+        <a href="game-scratch.html" class="game-card" data-tilt>
+            <span class="card-number">#3</span>
+            <div class="card-emoji">🎟️✨</div>
+            <h3>Scratch Cards</h3>
+            <p>Scratch to reveal hidden love coupons and romantic surprises!</p>
+            <span class="play-btn">PLAY</span>
+        </a>
+
+        <a href="game-wheel.html" class="game-card" data-tilt>
+            <span class="card-number">#4</span>
+            <div class="card-emoji">🎡💕</div>
+            <h3>Spin the Wheel</h3>
+            <p>Let fate decide our next romantic activity together!</p>
+            <span class="play-btn">PLAY</span>
+        </a>
+
+        <a href="game-reasons.html" class="game-card" data-tilt>
+            <span class="card-number">#5</span>
+            <div class="card-emoji">💝🏺</div>
+            <h3>Reasons I Love You</h3>
+            <p>Tap each heart to discover all the reasons you're so special to me.</p>
+            <span class="play-btn">PLAY</span>
+        </a>
+    </div>
+
+    <footer>
+        <p>💕 Made with love for you 💕</p>
+    </footer>
+
+    <script>
+    // tsParticles
+    tsParticles.load("tsparticles", {
+        particles: {
+            number: { value: 30, density: { enable: true, area: 900 } },
+            color: { value: ["#ff69b4","#ff1493","#ffb6c1","#ffd1dc"] },
+            shape: { type: ["circle","star"] },
+            opacity: { value: { min: 0.08, max: 0.3 }, animation: { enable: true, speed: 0.4 } },
+            size: { value: { min: 2, max: 6 }, animation: { enable: true, speed: 1.5 } },
+            move: { enable: true, speed: 0.5, direction: "none", outModes: { default: "out" } },
+            twinkle: { particles: { enable: true, frequency: 0.03, color: "#ff69b4" } }
+        },
+        interactivity: {
+            events: { onHover: { enable: true, mode: "bubble" } },
+            modes: { bubble: { distance: 150, size: 9, duration: 2, opacity: 0.5 } }
+        }
+    });
+
+    // Falling petals
+    (function() {
+        var emojis = ['🌸','🌺','💮','🌷','🌹'];
+        var w = window.innerWidth, h = window.innerHeight;
+        for (var i = 0; i < 12; i++) {
+            var p = document.createElement('div');
+            p.className = 'petal';
+            p.textContent = emojis[Math.floor(Math.random() * emojis.length)];
+            p.style.fontSize = (14 + Math.random() * 16) + 'px';
+            document.body.appendChild(p);
+            gsap.set(p, { x: Math.random() * w, y: -50, rotation: Math.random() * 360, opacity: 0.5 + Math.random() * 0.4 });
+            anim(p);
+        }
+        function anim(el) {
+            var sx = Math.random() * w;
+            gsap.set(el, { x: sx, y: -50 });
+            gsap.to(el, { y: h + 100, x: sx + (Math.random()-0.5)*300, rotation: '+='+((Math.random()-0.5)*720), opacity: 0, duration: 9+Math.random()*10, ease: 'none', onComplete: function(){ anim(el); } });
+            gsap.to(el, { x: '+='+Math.sin(Math.random()*Math.PI)*100, duration: 2.5+Math.random()*3, repeat: -1, yoyo: true, ease: 'sine.inOut' });
+        }
+    })();
+
+    // Sparkle cursor
+    var lastS = 0;
+    document.addEventListener('mousemove', function(e) {
+        if (Date.now() - lastS < 80) return;
+        lastS = Date.now();
+        var s = document.createElement('div');
+        s.className = 'sparkle';
+        s.textContent = ['✨','💗','⭐','🌸','💕'][Math.floor(Math.random()*5)];
+        s.style.cssText = 'left:'+e.clientX+'px;top:'+e.clientY+'px;font-size:14px';
+        document.body.appendChild(s);
+        setTimeout(function(){ s.remove(); }, 1000);
+    });
+
+    // 3D tilt on game cards
+    document.querySelectorAll('[data-tilt]').forEach(function(card) {
+        card.addEventListener('mousemove', function(e) {
+            var rect = card.getBoundingClientRect();
+            var x = (e.clientX - rect.left) / rect.width - 0.5;
+            var y = (e.clientY - rect.top) / rect.height - 0.5;
+            card.style.transform = 'translateY(-12px) scale(1.02) rotateX('+(-y*12)+'deg) rotateY('+(x*12)+'deg)';
+        });
+        card.addEventListener('mouseleave', function() {
+            card.style.transform = '';
+        });
+    });
+
+    // Cards use CSS animation (cardIn) for entrance — no GSAP needed
+    </script>
+</body>
+</html>

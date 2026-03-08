@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>💖</text></svg>">
+    <title>Scratch Cards - Love Games</title>
+    <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Montserrat:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/tsparticles@2.12.0/tsparticles.bundle.min.js"></script>
+    <style>
+        :root { --pink: #ff69b4; --hot-pink: #ff1493; --light-pink: #ffd1dc; --dark: #0a0a0a; }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background: linear-gradient(135deg, #0a0a0a 0%, #1a0011 50%, #0a0a0a 100%);
+            color: #fff; min-height: 100vh; overflow-x: hidden;
+        }
+        #tsparticles { position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:0; }
+
+        .back-btn {
+            position:fixed;top:25px;left:25px;z-index:100;
+            color:var(--light-pink);text-decoration:none;font-size:0.9rem;
+            padding:10px 25px;border:1px solid rgba(255,105,180,0.2);
+            border-radius:30px;backdrop-filter:blur(10px);
+            background:rgba(10,10,10,0.8);transition:all 0.3s;letter-spacing:1px;
+        }
+        .back-btn:hover { background:var(--pink);color:#fff;border-color:transparent; }
+
+        .game-page {
+            display: flex; flex-direction: column;
+            align-items: center; justify-content: center;
+            position: relative; z-index: 5; padding: 100px 20px 60px;
+            min-height: 100vh;
+        }
+
+        .game-title { text-align: center; margin-bottom: 50px; }
+        .game-title h1 {
+            font-family: 'Great Vibes', cursive;
+            font-size: clamp(2.5rem, 6vw, 4.5rem);
+            color: var(--pink);
+            filter: drop-shadow(0 0 25px rgba(255,105,180,0.3));
+        }
+        .game-title p { color: rgba(255,255,255,0.5); font-size: 1rem; letter-spacing: 3px; margin-top: 10px; }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 30px; max-width: 1100px; width: 100%;
+        }
+
+        .scratch-card {
+            position: relative; border-radius: 24px; overflow: hidden;
+            height: 300px; box-shadow: 0 15px 40px rgba(0,0,0,0.4);
+            border: 2px solid rgba(255,105,180,0.1);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        .scratch-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 50px rgba(255,105,180,0.2);
+        }
+        .scratch-card.revealed {
+            border-color: rgba(255,105,180,0.4);
+            box-shadow: 0 0 40px rgba(255,105,180,0.15);
+        }
+
+        .message {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            display: flex; flex-direction: column;
+            align-items: center; justify-content: center;
+            background: linear-gradient(145deg, #2d0a1e, #1a0011);
+            padding: 30px; text-align: center;
+        }
+        .message .em { font-size: 4.5rem; margin-bottom: 20px; }
+        .message .text {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.2rem; color: var(--light-pink);
+            line-height: 1.7; font-style: italic;
+        }
+        .message .label {
+            font-size: 0.8rem; color: rgba(255,182,193,0.4);
+            letter-spacing: 3px; text-transform: uppercase; margin-top: 15px;
+        }
+
+        .scratch-canvas {
+            position: absolute; top: 0; left: 0;
+            width: 100%; height: 100%; cursor: grab; border-radius: 24px;
+        }
+        .scratch-canvas:active { cursor: grabbing; }
+
+        .hint {
+            text-align: center; margin-top: 35px;
+            color: rgba(255,182,193,0.5); font-size: 1rem;
+            font-style: italic; letter-spacing: 1px;
+        }
+
+        .confetti-container { position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:9999;overflow:hidden; }
+        .confetti { position:absolute; animation: fall linear forwards; }
+        @keyframes fall { 0%{opacity:1;transform:translateY(-10vh) rotate(0) scale(1)} 100%{opacity:0;transform:translateY(110vh) rotate(720deg) scale(0.3)} }
+
+        @media (max-width:900px) { .grid { grid-template-columns: repeat(2,1fr); gap:20px; } }
+        @media (max-width:550px) {
+            .grid { grid-template-columns: 1fr; }
+            .scratch-card { height: 250px; }
+        }
+    </style>
+</head>
+<body>
+    <div id="tsparticles"></div>
+    <div class="confetti-container" id="confetti"></div>
+    <a href="games.html" class="back-btn">Back to Games</a>
+
+    <div class="game-page">
+        <div class="game-title">
+            <h1>Love Scratch Cards</h1>
+            <p>Scratch to reveal your love coupons</p>
+        </div>
+        <div class="grid" id="grid"></div>
+        <p class="hint">Use your mouse or finger to scratch each card</p>
+    </div>
+
+    <script>
+    tsParticles.load("tsparticles", {
+        particles: {
+            number:{value:25},color:{value:["#ff69b4","#ff1493","#ffb6c1"]},
+            shape:{type:["circle","star"]},
+            opacity:{value:{min:0.1,max:0.3}},
+            size:{value:{min:2,max:6}},
+            move:{enable:true,speed:0.5,outModes:{default:"out"}},
+            twinkle:{particles:{enable:true,frequency:0.03,color:"#ff69b4"}}
+        }
+    });
+
+    function launchConfetti(n){var c=document.getElementById('confetti');var em=['💖','💗','💕','✨','🌸','💝','🎉'];for(var i=0;i<n;i++){(function(i){setTimeout(function(){var d=document.createElement('div');d.className='confetti';d.textContent=em[Math.floor(Math.random()*em.length)];d.style.left=Math.random()*100+'%';d.style.fontSize=(16+Math.random()*26)+'px';d.style.animationDuration=(2+Math.random()*3)+'s';c.appendChild(d);setTimeout(function(){d.remove();},5000);},i*30);})(i);}}
+
+    var CARDS = [
+        {emoji:'💆‍♀️', text:'One free massage of your choice!', label:'Love Coupon'},
+        {emoji:'🎬', text:'Movie night — you pick the movie!', label:'Love Coupon'},
+        {emoji:'🍽️', text:'A romantic homemade dinner, cooked with love!', label:'Love Coupon'},
+        {emoji:'🌹', text:'A bouquet of your favorite flowers!', label:'Love Coupon'},
+        {emoji:'💕', text:'Unlimited hugs & kisses for 24 hours!', label:'Love Coupon'},
+        {emoji:'🏖️', text:'A surprise date to wherever you want!', label:'Love Coupon'},
+    ];
+
+    var grid = document.getElementById('grid');
+
+    CARDS.forEach(function(msg) {
+        var card = document.createElement('div');
+        card.className = 'scratch-card';
+
+        var message = document.createElement('div');
+        message.className = 'message';
+        message.innerHTML = '<div class="em">'+msg.emoji+'</div><div class="text">'+msg.text+'</div><div class="label">'+msg.label+'</div>';
+        card.appendChild(message);
+
+        var canvas = document.createElement('canvas');
+        canvas.className = 'scratch-canvas';
+        card.appendChild(canvas);
+        grid.appendChild(card);
+
+        // Wait for layout
+        requestAnimationFrame(function() {
+            requestAnimationFrame(function() {
+                setupCanvas(canvas, card);
+            });
+        });
+    });
+
+    function setupCanvas(canvas, card) {
+        var w = card.offsetWidth;
+        var h = card.offsetHeight;
+        var dpr = window.devicePixelRatio || 1;
+
+        canvas.width = w * dpr;
+        canvas.height = h * dpr;
+        canvas.style.width = w + 'px';
+        canvas.style.height = h + 'px';
+
+        var ctx = canvas.getContext('2d');
+        ctx.scale(dpr, dpr);
+
+        // Draw overlay
+        var grad = ctx.createLinearGradient(0, 0, w, h);
+        grad.addColorStop(0, '#4a1942');
+        grad.addColorStop(0.3, '#6b2fa0');
+        grad.addColorStop(0.7, '#5a2080');
+        grad.addColorStop(1, '#4a1942');
+        ctx.fillStyle = grad;
+
+        var r = 24;
+        ctx.beginPath();
+        ctx.moveTo(r, 0);
+        ctx.lineTo(w-r, 0); ctx.quadraticCurveTo(w, 0, w, r);
+        ctx.lineTo(w, h-r); ctx.quadraticCurveTo(w, h, w-r, h);
+        ctx.lineTo(r, h); ctx.quadraticCurveTo(0, h, 0, h-r);
+        ctx.lineTo(0, r); ctx.quadraticCurveTo(0, 0, r, 0);
+        ctx.closePath();
+        ctx.fill();
+
+        // Sparkle decorations
+        ctx.fillStyle = 'rgba(255,255,255,0.12)';
+        var chars = ['✦','✧','⭐','✨','·'];
+        for (var s = 0; s < 50; s++) {
+            ctx.font = (8 + Math.random()*14) + 'px serif';
+            ctx.fillText(chars[Math.floor(Math.random()*chars.length)], Math.random()*w, Math.random()*h);
+        }
+
+        // Center text
+        ctx.fillStyle = 'rgba(255,182,193,0.8)';
+        ctx.font = '700 20px Montserrat, sans-serif';
+        ctx.textAlign = 'center';
+        ctx.textBaseline = 'middle';
+        ctx.fillText('✨ Scratch Here ✨', w/2, h/2);
+
+        var scratching = false;
+        var revealed = false;
+
+        function scratch(x, y) {
+            if (revealed) return;
+            ctx.globalCompositeOperation = 'destination-out';
+            ctx.beginPath();
+            ctx.arc(x, y, 30, 0, Math.PI*2);
+            ctx.fill();
+
+            // Check progress (sample for perf)
+            var data = ctx.getImageData(0, 0, canvas.width, canvas.height).data;
+            var trans = 0, step = 20;
+            for (var p = 3; p < data.length; p += 4*step) {
+                if (data[p] === 0) trans++;
+            }
+            if (trans / (data.length / (4*step)) > 0.4) {
+                revealed = true;
+                canvas.style.transition = 'opacity 0.6s';
+                canvas.style.opacity = '0';
+                card.classList.add('revealed');
+                launchConfetti(15);
+                setTimeout(function(){ canvas.style.display = 'none'; }, 600);
+            }
+        }
+
+        function getPos(e) {
+            var rect = canvas.getBoundingClientRect();
+            return { x: e.clientX - rect.left, y: e.clientY - rect.top };
+        }
+
+        canvas.addEventListener('mousedown', function(e) { scratching = true; var p = getPos(e); scratch(p.x, p.y); });
+        canvas.addEventListener('mouseup', function() { scratching = false; });
+        canvas.addEventListener('mouseleave', function() { scratching = false; });
+        canvas.addEventListener('mousemove', function(e) { if (!scratching) return; var p = getPos(e); scratch(p.x, p.y); });
+
+        canvas.addEventListener('touchstart', function(e) { e.preventDefault(); scratching = true; var p = getPos(e.touches[0]); scratch(p.x, p.y); }, {passive:false});
+        canvas.addEventListener('touchend', function() { scratching = false; });
+        canvas.addEventListener('touchmove', function(e) { e.preventDefault(); if (!scratching) return; var p = getPos(e.touches[0]); scratch(p.x, p.y); }, {passive:false});
+    }
+    </script>
+</body>
+</html>
