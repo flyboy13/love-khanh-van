@@ -1,11 +1,15 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>💖</text></svg>">
+    <link rel="icon"
+        href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>💖</text></svg>">
     <title>Happy Women's Day - Khánh Vân 💖</title>
-    <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Montserrat:wght@300;400;600&display=swap" rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Montserrat:wght@300;400;600&display=swap"
+        rel="stylesheet">
     <style>
         * {
             margin: 0;
@@ -44,16 +48,183 @@
             visibility: hidden;
         }
 
-        .preloader-heart {
-            font-size: 60px;
-            animation: heartbeat 1s ease-in-out infinite;
+        .preloader-content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 40px;
         }
 
-        @keyframes heartbeat {
-            0%, 100% { transform: scale(1); }
-            25% { transform: scale(1.3); }
-            40% { transform: scale(1); }
-            60% { transform: scale(1.2); }
+        .preloader-3d {
+            width: 160px;
+            height: 160px;
+            perspective: 800px;
+        }
+
+        .preloader-scene {
+            width: 100%;
+            height: 100%;
+            transform-style: preserve-3d;
+            animation: preloaderRotate 3s ease-in-out infinite;
+        }
+
+        .heart-3d {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            transform-style: preserve-3d;
+        }
+
+        .heart-3d .heart-layer {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        .heart-3d .heart-layer svg {
+            filter: drop-shadow(0 0 15px rgba(255, 20, 147, 0.8));
+        }
+
+        .heart-3d .heart-layer:nth-child(1) {
+            transform: translate(-50%, -50%) translateZ(20px);
+        }
+
+        .heart-3d .heart-layer:nth-child(2) {
+            transform: translate(-50%, -50%) translateZ(10px);
+            opacity: 0.7;
+        }
+
+        .heart-3d .heart-layer:nth-child(3) {
+            transform: translate(-50%, -50%) translateZ(0px);
+            opacity: 0.5;
+        }
+
+        .heart-3d .heart-layer:nth-child(4) {
+            transform: translate(-50%, -50%) translateZ(-10px);
+            opacity: 0.3;
+        }
+
+        .heart-3d .heart-layer:nth-child(5) {
+            transform: translate(-50%, -50%) translateZ(-20px);
+            opacity: 0.15;
+        }
+
+        @keyframes preloaderRotate {
+            0% {
+                transform: rotateY(-30deg) rotateX(10deg) scale(1);
+            }
+
+            25% {
+                transform: rotateY(0deg) rotateX(0deg) scale(1.15);
+            }
+
+            50% {
+                transform: rotateY(30deg) rotateX(-10deg) scale(1);
+            }
+
+            75% {
+                transform: rotateY(0deg) rotateX(0deg) scale(1.15);
+            }
+
+            100% {
+                transform: rotateY(-30deg) rotateX(10deg) scale(1);
+            }
+        }
+
+        .preloader-ring {
+            display: none;
+        }
+
+        .preloader-text {
+            font-family: 'Great Vibes', cursive;
+            font-size: 1.8rem;
+            color: #ffb6c1;
+            animation: preloaderFade 2s ease-in-out infinite;
+            letter-spacing: 2px;
+        }
+
+        @keyframes preloaderFade {
+
+            0%,
+            100% {
+                opacity: 0.4;
+            }
+
+            50% {
+                opacity: 1;
+            }
+        }
+
+        .preloader-particles {
+            position: absolute;
+            width: 300px;
+            height: 300px;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        .preloader-particle {
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            background: #ff69b4;
+            border-radius: 50%;
+            box-shadow: 0 0 8px #ff69b4, 0 0 16px #ff1493;
+        }
+
+        .preloader-particle:nth-child(1) {
+            top: 0;
+            left: 50%;
+            animation: pOrbit 3s linear infinite;
+        }
+
+        .preloader-particle:nth-child(2) {
+            top: 50%;
+            right: 0;
+            animation: pOrbit 3s linear infinite 0.5s;
+        }
+
+        .preloader-particle:nth-child(3) {
+            bottom: 0;
+            left: 50%;
+            animation: pOrbit 3s linear infinite 1s;
+        }
+
+        .preloader-particle:nth-child(4) {
+            top: 50%;
+            left: 0;
+            animation: pOrbit 3s linear infinite 1.5s;
+        }
+
+        .preloader-particle:nth-child(5) {
+            top: 15%;
+            left: 15%;
+            animation: pOrbit 3s linear infinite 2s;
+        }
+
+        .preloader-particle:nth-child(6) {
+            top: 15%;
+            right: 15%;
+            animation: pOrbit 3s linear infinite 2.5s;
+        }
+
+        @keyframes pOrbit {
+            0% {
+                transform: scale(1);
+                opacity: 1;
+            }
+
+            50% {
+                transform: scale(2.5);
+                opacity: 0.3;
+            }
+
+            100% {
+                transform: scale(1);
+                opacity: 1;
+            }
         }
 
         /* ==================== PARTICLES CONTAINER ==================== */
@@ -157,16 +328,14 @@
         }
 
         .hero-name .name-text {
-            background: linear-gradient(
-                90deg,
-                #ffb6c1 0%,
-                #fff 15%,
-                #ffd1dc 30%,
-                #ff69b4 50%,
-                #ffd1dc 70%,
-                #fff 85%,
-                #ffb6c1 100%
-            );
+            background: linear-gradient(90deg,
+                    #ffb6c1 0%,
+                    #fff 15%,
+                    #ffd1dc 30%,
+                    #ff69b4 50%,
+                    #ffd1dc 70%,
+                    #fff 85%,
+                    #ffb6c1 100%);
             background-size: 200% 100%;
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
@@ -186,17 +355,38 @@
             -webkit-text-fill-color: initial;
         }
 
-        .hero-name::before { left: -30px; animation-delay: 0s; }
-        .hero-name::after { right: -30px; animation-delay: 1s; }
+        .hero-name::before {
+            left: -30px;
+            animation-delay: 0s;
+        }
+
+        .hero-name::after {
+            right: -30px;
+            animation-delay: 1s;
+        }
 
         @keyframes nameShimmer {
-            0% { background-position: 200% 0; }
-            100% { background-position: -200% 0; }
+            0% {
+                background-position: 200% 0;
+            }
+
+            100% {
+                background-position: -200% 0;
+            }
         }
 
         @keyframes sparkle {
-            0%, 100% { opacity: 0.3; transform: translateY(-50%) scale(0.8); }
-            50% { opacity: 1; transform: translateY(-50%) scale(1.3); }
+
+            0%,
+            100% {
+                opacity: 0.3;
+                transform: translateY(-50%) scale(0.8);
+            }
+
+            50% {
+                opacity: 1;
+                transform: translateY(-50%) scale(1.3);
+            }
         }
 
         .hero-name .glow-dot {
@@ -211,11 +401,30 @@
         }
 
         @keyframes glowOrbit {
-            0% { top: 0; left: 0; opacity: 0; }
-            10% { opacity: 1; }
-            50% { top: 100%; left: 100%; }
-            90% { opacity: 1; }
-            100% { top: 0; left: 0; opacity: 0; }
+            0% {
+                top: 0;
+                left: 0;
+                opacity: 0;
+            }
+
+            10% {
+                opacity: 1;
+            }
+
+            50% {
+                top: 100%;
+                left: 100%;
+            }
+
+            90% {
+                opacity: 1;
+            }
+
+            100% {
+                top: 0;
+                left: 0;
+                opacity: 0;
+            }
         }
 
         .hero-subtitle {
@@ -261,26 +470,54 @@
             letter-spacing: 4px;
             color: rgba(255, 182, 193, 0.6);
             margin-top: 10px;
+            text-align: center;
         }
 
         @keyframes scrollPulse {
-            0%, 100% { opacity: 0.3; transform: scaleY(0.5); }
-            50% { opacity: 1; transform: scaleY(1); }
+
+            0%,
+            100% {
+                opacity: 0.3;
+                transform: scaleY(0.5);
+            }
+
+            50% {
+                opacity: 1;
+                transform: scaleY(1);
+            }
         }
 
         @keyframes gradientShift {
-            0% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-            100% { background-position: 0% 50%; }
+            0% {
+                background-position: 0% 50%;
+            }
+
+            50% {
+                background-position: 100% 50%;
+            }
+
+            100% {
+                background-position: 0% 50%;
+            }
         }
 
         @keyframes fadeInUp {
-            to { opacity: 1; transform: translateY(0); }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
 
         @keyframes float {
-            0%, 100% { transform: translateY(0) rotate(0deg); }
-            50% { transform: translateY(-15px) rotate(5deg); }
+
+            0%,
+            100% {
+                transform: translateY(0) rotate(0deg);
+            }
+
+            50% {
+                transform: translateY(-15px) rotate(5deg);
+            }
         }
 
         /* ==================== 3D FLOATING HEARTS ==================== */
@@ -306,13 +543,16 @@
                 opacity: 0;
                 transform: translateY(100vh) rotate(0deg) scale(0);
             }
+
             10% {
                 opacity: 0.8;
                 transform: translateY(80vh) rotate(36deg) scale(1);
             }
+
             90% {
                 opacity: 0.6;
             }
+
             100% {
                 opacity: 0;
                 transform: translateY(-10vh) rotate(360deg) scale(0.5);
@@ -608,8 +848,13 @@
             background: rgba(255, 105, 180, 0.4);
         }
 
-        .lightbox-prev { left: 20px; }
-        .lightbox-next { right: 20px; }
+        .lightbox-prev {
+            left: 20px;
+        }
+
+        .lightbox-next {
+            right: 20px;
+        }
 
         /* ==================== 3D CAROUSEL ==================== */
         .carousel-section {
@@ -621,9 +866,9 @@
         }
 
         .carousel-container {
-            width: 300px;
-            height: 400px;
-            margin: 0 auto;
+            width: 380px;
+            height: 500px;
+            margin: 60px auto 0;
             perspective: 1200px;
             position: relative;
         }
@@ -659,8 +904,13 @@
         }
 
         @keyframes carouselRotate {
-            from { transform: rotateY(0deg); }
-            to { transform: rotateY(360deg); }
+            from {
+                transform: rotateY(0deg);
+            }
+
+            to {
+                transform: rotateY(360deg);
+            }
         }
 
         /* ==================== QUALITIES SECTION ==================== */
@@ -845,8 +1095,17 @@
         }
 
         @keyframes pulse {
-            0%, 100% { transform: translate(-50%, -50%) scale(1); opacity: 0.5; }
-            50% { transform: translate(-50%, -50%) scale(1.2); opacity: 1; }
+
+            0%,
+            100% {
+                transform: translate(-50%, -50%) scale(1);
+                opacity: 0.5;
+            }
+
+            50% {
+                transform: translate(-50%, -50%) scale(1.2);
+                opacity: 1;
+            }
         }
 
         .wish-content {
@@ -974,8 +1233,15 @@
         }
 
         @keyframes musicPulse {
-            0%, 100% { box-shadow: 0 0 10px rgba(255, 105, 180, 0.3); }
-            50% { box-shadow: 0 0 30px rgba(255, 105, 180, 0.6); }
+
+            0%,
+            100% {
+                box-shadow: 0 0 10px rgba(255, 105, 180, 0.3);
+            }
+
+            50% {
+                box-shadow: 0 0 30px rgba(255, 105, 180, 0.6);
+            }
         }
 
         /* ==================== SPARKLE CURSOR ==================== */
@@ -988,8 +1254,15 @@
         }
 
         @keyframes sparkleAnim {
-            0% { opacity: 1; transform: scale(1) translateY(0); }
-            100% { opacity: 0; transform: scale(0) translateY(-50px); }
+            0% {
+                opacity: 1;
+                transform: scale(1) translateY(0);
+            }
+
+            100% {
+                opacity: 0;
+                transform: scale(0) translateY(-50px);
+            }
         }
 
         /* ==================== 3D ROSE ==================== */
@@ -1009,8 +1282,15 @@
         }
 
         @keyframes roseRotate {
-            0%, 100% { transform: rotateY(-15deg) rotateX(5deg); }
-            50% { transform: rotateY(15deg) rotateX(-5deg); }
+
+            0%,
+            100% {
+                transform: rotateY(-15deg) rotateX(5deg);
+            }
+
+            50% {
+                transform: rotateY(15deg) rotateX(-5deg);
+            }
         }
 
         .rose-petal {
@@ -1023,8 +1303,15 @@
         }
 
         @keyframes petalBloom {
-            0% { transform: scale(0) rotate(0deg); opacity: 0; }
-            100% { transform: scale(1) rotate(var(--rot)); opacity: 1; }
+            0% {
+                transform: scale(0) rotate(0deg);
+                opacity: 0;
+            }
+
+            100% {
+                transform: scale(1) rotate(var(--rot));
+                opacity: 1;
+            }
         }
 
         /* ==================== RESPONSIVE ==================== */
@@ -1088,11 +1375,54 @@
         }
     </style>
 </head>
+
 <body>
 
     <!-- Preloader -->
     <div class="preloader" id="preloader">
-        <div class="preloader-heart">💗</div>
+        <div class="preloader-content">
+            <div class="preloader-3d">
+                <div class="preloader-particles">
+                    <div class="preloader-particle"></div>
+                    <div class="preloader-particle"></div>
+                    <div class="preloader-particle"></div>
+                    <div class="preloader-particle"></div>
+                    <div class="preloader-particle"></div>
+                    <div class="preloader-particle"></div>
+                </div>
+                <div class="preloader-ring"></div>
+                <div class="preloader-scene">
+                    <div class="heart-3d">
+                        <div class="heart-layer"><svg width="120" height="110" viewBox="0 0 120 110">
+                                <path
+                                    d="M60 100 C60 100 5 65 5 30 C5 10 20 0 35 0 C50 0 60 15 60 15 C60 15 70 0 85 0 C100 0 115 10 115 30 C115 65 60 100 60 100Z"
+                                    fill="#ff1493" />
+                            </svg></div>
+                        <div class="heart-layer"><svg width="120" height="110" viewBox="0 0 120 110">
+                                <path
+                                    d="M60 100 C60 100 5 65 5 30 C5 10 20 0 35 0 C50 0 60 15 60 15 C60 15 70 0 85 0 C100 0 115 10 115 30 C115 65 60 100 60 100Z"
+                                    fill="#ff69b4" />
+                            </svg></div>
+                        <div class="heart-layer"><svg width="120" height="110" viewBox="0 0 120 110">
+                                <path
+                                    d="M60 100 C60 100 5 65 5 30 C5 10 20 0 35 0 C50 0 60 15 60 15 C60 15 70 0 85 0 C100 0 115 10 115 30 C115 65 60 100 60 100Z"
+                                    fill="#ff1493" />
+                            </svg></div>
+                        <div class="heart-layer"><svg width="120" height="110" viewBox="0 0 120 110">
+                                <path
+                                    d="M60 100 C60 100 5 65 5 30 C5 10 20 0 35 0 C50 0 60 15 60 15 C60 15 70 0 85 0 C100 0 115 10 115 30 C115 65 60 100 60 100Z"
+                                    fill="#ff69b4" />
+                            </svg></div>
+                        <div class="heart-layer"><svg width="120" height="110" viewBox="0 0 120 110">
+                                <path
+                                    d="M60 100 C60 100 5 65 5 30 C5 10 20 0 35 0 C50 0 60 15 60 15 C60 15 70 0 85 0 C100 0 115 10 115 30 C115 65 60 100 60 100Z"
+                                    fill="#ff1493" />
+                            </svg></div>
+                    </div>
+                </div>
+            </div>
+            <div class="preloader-text">Loading our love story...</div>
+        </div>
     </div>
 
     <!-- Particles -->
@@ -1111,7 +1441,7 @@
                 <span class="name-text">Phạm Nguyễn Khánh Vân</span>
                 <span class="glow-dot"></span>
             </div>
-            <p class="hero-subtitle">To the most amazing woman in my life</p>
+            <p class="hero-subtitle">To the most amazing girl in my life</p>
             <div class="hero-flower">🌹</div>
         </div>
         <div class="scroll-indicator">
@@ -1701,79 +2031,25 @@
             setTimeout(() => sparkle.remove(), 1000);
         });
 
-        // ==================== MUSIC (Optional) ====================
+        // ==================== MUSIC ====================
         const musicToggle = document.getElementById('musicToggle');
-        let audioContext = null;
+        const bgMusic = new Audio("media/music.mp3");
+        bgMusic.loop = true;
         let isPlaying = false;
 
         musicToggle.addEventListener('click', () => {
-            if (!audioContext) {
-                audioContext = new (window.AudioContext || window.webkitAudioContext)();
-                // Create a gentle melody
-                playMelody();
+            if (!isPlaying) {
+                bgMusic.play();
                 isPlaying = true;
                 musicToggle.classList.add('playing');
                 musicToggle.textContent = '🎶';
-            } else if (isPlaying) {
-                audioContext.suspend();
+            } else {
+                bgMusic.pause();
                 isPlaying = false;
                 musicToggle.classList.remove('playing');
                 musicToggle.textContent = '🎵';
-            } else {
-                audioContext.resume();
-                isPlaying = true;
-                musicToggle.classList.add('playing');
-                musicToggle.textContent = '🎶';
             }
         });
-
-        function playMelody() {
-            // A gentle, romantic melody
-            const notes = [
-                { freq: 523.25, duration: 0.5 },  // C5
-                { freq: 659.25, duration: 0.5 },  // E5
-                { freq: 783.99, duration: 0.75 }, // G5
-                { freq: 659.25, duration: 0.25 }, // E5
-                { freq: 783.99, duration: 0.5 },  // G5
-                { freq: 880.00, duration: 0.75 }, // A5
-                { freq: 783.99, duration: 0.5 },  // G5
-                { freq: 659.25, duration: 0.5 },  // E5
-                { freq: 523.25, duration: 1.0 },  // C5
-            ];
-
-            let time = audioContext.currentTime;
-
-            function playSequence() {
-                notes.forEach(note => {
-                    const osc = audioContext.createOscillator();
-                    const gain = audioContext.createGain();
-
-                    osc.type = 'sine';
-                    osc.frequency.value = note.freq;
-
-                    gain.gain.setValueAtTime(0, time);
-                    gain.gain.linearRampToValueAtTime(0.08, time + 0.05);
-                    gain.gain.exponentialRampToValueAtTime(0.001, time + note.duration);
-
-                    osc.connect(gain);
-                    gain.connect(audioContext.destination);
-
-                    osc.start(time);
-                    osc.stop(time + note.duration + 0.1);
-
-                    time += note.duration;
-                });
-            }
-
-            // Play melody in a loop
-            playSequence();
-            setInterval(() => {
-                if (isPlaying && audioContext.state === 'running') {
-                    time = audioContext.currentTime;
-                    playSequence();
-                }
-            }, 5000);
-        }
 
         // ==================== KONAMI CODE EASTER EGG ====================
         let konamiIndex = 0;
@@ -1816,4 +2092,5 @@
         });
     </script>
 </body>
+
 </html>
